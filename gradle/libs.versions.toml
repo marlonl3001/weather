@@ -1,13 +1,21 @@
 [versions]
-agp = "8.2.1"
-kotlin = "1.9.0"
+agp = "8.7.3"
+kotlin = "2.1.0"
 core-ktx = "1.15.0"
 junit = "4.13.2"
 androidx-test-ext-junit = "1.2.1"
 espresso-core = "3.6.1"
 lifecycle-runtime-ktx = "2.8.7"
 activity-compose = "1.9.3"
-compose-bom = "2023.08.00"
+compose-bom = "2024.11.00"
+retrofit = "2.9.0"
+okhttp = "4.12.0"
+gson = "2.10.1"
+hilt = "2.51.1"
+hilt-navigation = "1.2.0"
+ksp = "2.1.0-1.0.29"
+coil = "2.3.0"
+constraintlayout = "1.1.0"
 
 [libraries]
 core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx" }
@@ -24,8 +32,21 @@ ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview
 ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
 ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 material3 = { group = "androidx.compose.material3", name = "material3" }
+retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
+retrofit-gson = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofit" }
+okhttp = { group = "com.squareup.okhttp3", name = "okhttp", version.ref = "okhttp" }
+okhttp-logging = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "okhttp" }
+gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson" }
+hilt = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
+hilt-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hilt" }
+hilt-navigation = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "hilt-navigation" }
+coil = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil" }
+constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout-compose", version.ref = "constraintlayout" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+kotlinAndroidKsp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
+composeCompiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 
