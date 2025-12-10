@@ -22,22 +22,19 @@ import androidx.compose.ui.unit.dp
 import br.com.mdr.weather.R
 import br.com.mdr.weather.commons.getResId
 import br.com.mdr.weather.core.domain.usecase.DailyForecast
-import br.com.mdr.weather.core.util.Constants
-import br.com.mdr.weather.presentation.ui.theme.BottomDarkSkyBlue
 import br.com.mdr.weather.presentation.ui.theme.EXTRA_SMALL_PADDING
 import br.com.mdr.weather.presentation.ui.theme.MEDIUM_PADDING
 import br.com.mdr.weather.presentation.ui.theme.SMALL_PADDING
 import br.com.mdr.weather.presentation.ui.theme.TransparentWhite
-import coil.compose.AsyncImage
-import coil.request.ImageRequest
-import coil.size.Size
+import dev.chrisbanes.haze.HazeState
+import dev.chrisbanes.haze.rememberHazeState
 
 @Composable
-fun DailyForecast(backgroundColor: Color, dailyData: List<DailyForecast>) {
+fun DailyForecast(dailyData: List<DailyForecast>, hazeState: HazeState) {
     BlurCard(
-        backgroundColor = backgroundColor,
         modifier = Modifier
-            .fillMaxWidth()
+            .fillMaxWidth(),
+        hazeState = hazeState
     ) {
         Column(
             modifier = Modifier.fillMaxWidth()
@@ -174,5 +171,5 @@ fun DailyForecastPreview() {
         )
         forecasts.add(forecast)
     }
-    DailyForecast(BottomDarkSkyBlue, forecasts)
+    DailyForecast(forecasts, rememberHazeState())
 }

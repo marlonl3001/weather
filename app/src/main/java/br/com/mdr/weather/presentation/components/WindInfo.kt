@@ -14,12 +14,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Canvas
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Paint
-import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.StrokeCap
-import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -32,18 +29,19 @@ import br.com.mdr.weather.data.model.Wind
 import br.com.mdr.weather.presentation.ui.theme.EXTRA_SMALL_PADDING
 import br.com.mdr.weather.presentation.ui.theme.MEDIUM_PADDING
 import br.com.mdr.weather.presentation.ui.theme.SMALL_PADDING
-import br.com.mdr.weather.presentation.ui.theme.TopCloudySky
 import br.com.mdr.weather.presentation.ui.theme.TransparentWhite
+import dev.chrisbanes.haze.HazeState
+import dev.chrisbanes.haze.rememberHazeState
 import kotlin.math.cos
 import kotlin.math.min
 import kotlin.math.roundToInt
 import kotlin.math.sin
 
 @Composable
-fun WindInfo(backgroundColor: Color, windModel: Wind) {
+fun WindInfo(windModel: Wind, hazeState: HazeState) {
     BlurCard(
-        backgroundColor = backgroundColor,
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier.fillMaxWidth(),
+        hazeState = hazeState
     ) {
         ConstraintLayout(
             modifier = Modifier
@@ -188,7 +186,7 @@ fun WindInfo(backgroundColor: Color, windModel: Wind) {
                     },
                 speed = windModel.speed.toInt(),
                 degree = windModel.deg.toFloat(),
-                circleColor = backgroundColor.copy(alpha = 0.6f)
+                hazeState = hazeState
             )
 //            WindCompass(
 ////                modifier = Modifier
@@ -363,7 +361,7 @@ fun WindCompass(
     modifier: Modifier = Modifier,
     degree: Float,
     speed: Int,
-    circleColor: Color
+    hazeState: HazeState
 ) {
     Canvas(modifier = modifier) {
         val size = this.size
@@ -388,7 +386,7 @@ fun WindCompass(
 
         // Desenhar o círculo central
         drawCircle(
-            color = circleColor,
+            color = Color.Transparent,
             center = center,
             radius = innerRadius
         )
@@ -649,7 +647,6 @@ fun WindInfoPreview() {
     Column(
         modifier = Modifier.fillMaxSize()
     ) {
-        //WindCompass( 93f, 12, modifier = Modifier.fillMaxWidth())
-        WindInfo(TopCloudySky, Wind(7.0, 147, 18.0))
+        WindInfo(Wind(7.0, 147, 18.0), rememberHazeState())
     }
 }

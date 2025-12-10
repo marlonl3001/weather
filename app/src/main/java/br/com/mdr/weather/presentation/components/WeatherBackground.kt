@@ -13,8 +13,6 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
@@ -24,10 +22,10 @@ import androidx.compose.ui.platform.LocalDensity
 import br.com.mdr.weather.core.domain.model.TimeOfDay
 import br.com.mdr.weather.core.domain.model.WeatherCondition
 import br.com.mdr.weather.presentation.components.shaders.CloudAnimation
-import br.com.mdr.weather.presentation.components.shaders.MoonAnimation
 import br.com.mdr.weather.presentation.components.shaders.SunAnimation
 import br.com.mdr.weather.presentation.components.weatherAnimation.RainAnimation
-import kotlinx.coroutines.delay
+import dev.chrisbanes.haze.HazeState
+import dev.chrisbanes.haze.hazeSource
 import kotlin.math.sin
 
 data class Star(
@@ -49,8 +47,8 @@ data class Star(
 }
 
 @Composable
-fun WeatherBackground(weatherCondition: WeatherCondition) {
-    Box(modifier = Modifier.fillMaxSize()) {
+fun WeatherBackground(weatherCondition: WeatherCondition, hazeState: HazeState) {
+    Box(modifier = Modifier.fillMaxSize().hazeSource(hazeState)) {
         // Fundo do céu
         SkyBackground(weatherCondition)
 

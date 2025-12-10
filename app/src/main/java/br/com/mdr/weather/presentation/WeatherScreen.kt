@@ -15,8 +15,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -32,6 +30,7 @@ import br.com.mdr.weather.presentation.ui.theme.MEDIUM_PADDING
 import br.com.mdr.weather.presentation.ui.theme.SMALL_PADDING
 import br.com.mdr.weather.presentation.ui.theme.TOP_APP_BAR_HEIGHT
 import br.com.mdr.weather.presentation.ui.theme.fontShadow
+import dev.chrisbanes.haze.rememberHazeState
 import java.util.Locale
 import kotlin.math.roundToInt
 
@@ -39,14 +38,16 @@ import kotlin.math.roundToInt
 fun WeatherScreen(viewModel: WeatherViewModel = hiltViewModel()) {
     val weather by viewModel.weatherState.collectAsStateWithLifecycle()
     val isLoading by viewModel.enableLoading.collectAsStateWithLifecycle()
-    val configuration = LocalConfiguration.current
-    val cardWidth = configuration.screenWidthDp.dp / 2
+    val hazeState = rememberHazeState()
 
     if (!isLoading) {
         weather?.let {
-            WeatherBackground(weatherCondition = it.weatherCondition)
+            WeatherBackground(weatherCondition = it.weatherCondition, hazeState)
 
-            Box(modifier = Modifier.fillMaxSize().padding(horizontal = MEDIUM_PADDING)) {
+            Box(modifier = Modifier
+                .fillMaxSize()
+                .padding(horizontal = MEDIUM_PADDING)
+            ) {
                 LazyColumn (
                     modifier = Modifier
                         .fillMaxWidth(),
@@ -72,13 +73,14 @@ fun WeatherScreen(viewModel: WeatherViewModel = hiltViewModel()) {
                     item {
                         HourlyForecastItem(
                             hourlyForecast = it.hourlyForecast,
-                            weatherCondition = it.weatherCondition
+                            weatherCondition = it.weatherCondition,
+                            hazeState = hazeState
                         )
                     }
                     item {
                         DailyForecast(
-                            backgroundColor = it.weatherCondition.skyColor.first,
-                            dailyData = it.dailyForecast
+                            dailyData = it.dailyForecast,
+                            hazeState = hazeState
                         )
                     }
                     item {
@@ -89,7 +91,7 @@ fun WeatherScreen(viewModel: WeatherViewModel = hiltViewModel()) {
                         ) {
                             WeatherInfoCard(
                                 Modifier.weight(1f),
-                                it.weatherCondition.skyColor.first,
+                                hazeState,
                                 R.drawable.ic_thermometer,
                                 "Sensação",
                                 "${weather?.feelsLike?.roundToInt()}º",
@@ -97,7 +99,7 @@ fun WeatherScreen(viewModel: WeatherViewModel = hiltViewModel()) {
                             )
                             WeatherInfoCard(
                                 Modifier.weight(1f),
-                                it.weatherCondition.skyColor.first,
+                                hazeState,
                                 R.drawable.ic_visibility,
                                 "Visibilidade",
                                 "${it.getVisibility()} KM",
@@ -106,10 +108,7 @@ fun WeatherScreen(viewModel: WeatherViewModel = hiltViewModel()) {
                         }
                     }
                     item {
-                        WindInfo(
-                            it.weatherCondition.skyColor.first,
-                            it.wind
-                        )
+                        WindInfo(it.wind, hazeState)
                     }
                     item {
                         Row(
@@ -119,7 +118,7 @@ fun WeatherScreen(viewModel: WeatherViewModel = hiltViewModel()) {
                         ) {
                             WeatherInfoCard(
                                 Modifier.weight(1f),
-                                backgroundColor = it.weatherCondition.skyColor.first,
+                                hazeState,
                                 icon = R.drawable.ic_water,
                                 title = "Umidade",
                                 info = "${it.humidity}%",

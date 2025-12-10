@@ -1,6 +1,5 @@
 import java.util.Properties
 
-@Suppress("DSL_SCOPE_VIOLATION") // TODO: Remove once KTIJ-19369 is fixed
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.kotlinAndroid)
@@ -22,7 +21,7 @@ fun getLocalProperty(propertyName: String, project: Project): String? {
 
 android {
     namespace = "br.com.mdr.weather"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "br.com.mdr.weather"
@@ -107,6 +106,12 @@ dependencies {
 
     //Coil
     implementation(libs.coil)
+
+    //Location
+    implementation(libs.play.services.location)
+
+    //Glassmorphism
+    implementation(libs.haze.glass)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)

@@ -34,6 +34,7 @@ import br.com.mdr.weather.presentation.components.weatherAnimation.FragmentingDr
 import br.com.mdr.weather.presentation.ui.theme.MEDIUM_PADDING
 import br.com.mdr.weather.presentation.ui.theme.SMALL_PADDING
 import br.com.mdr.weather.presentation.ui.theme.TransparentWhite
+import dev.chrisbanes.haze.HazeState
 
 val shader = RuntimeShader("""
     uniform shader composable;
@@ -68,7 +69,11 @@ val shader = RuntimeShader("""
 
     """.trimIndent())
 @Composable
-fun HourlyForecastItem(hourlyForecast: List<HourlyForecast>, weatherCondition: WeatherCondition) {
+fun HourlyForecastItem(
+    hourlyForecast: List<HourlyForecast>,
+    weatherCondition: WeatherCondition,
+    hazeState: HazeState
+) {
     val context = LocalContext.current
     var itemSize by remember { mutableStateOf(IntSize.Zero) }
 
@@ -89,9 +94,9 @@ fun HourlyForecastItem(hourlyForecast: List<HourlyForecast>, weatherCondition: W
             )
         }
         BlurCard(
-            backgroundColor = weatherCondition.skyColor.first,
             modifier = Modifier
-                .fillMaxWidth()
+                .fillMaxWidth(),
+            hazeState = hazeState
         ) {
             Column(
                 modifier = Modifier.fillMaxWidth()
