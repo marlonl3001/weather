@@ -1,6 +1,6 @@
 # Weather App
-<div>
-  <img src="https://github.com/user-attachments/assets/daf87b43-acd9-4422-b814-6f56887a3848" width="350"/> 
+<div> 
+  <img src="https://github.com/user-attachments/assets/528b0d39-a321-4789-aa9a-5bb8039506b5" width="350"/>
   <img src="https://github.com/user-attachments/assets/181da77d-dacc-4a93-8810-224053739413" width="350"/> 
 </div>
 
