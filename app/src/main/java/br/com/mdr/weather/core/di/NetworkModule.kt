@@ -1,9 +1,12 @@
 package br.com.mdr.weather.core.di
 
+import android.app.Application
 import br.com.mdr.weather.BuildConfig
 import br.com.mdr.weather.core.util.Constants.BASE_URL
 import br.com.mdr.weather.data.remote.ApiKeyInterceptor
 import br.com.mdr.weather.data.remote.WeatherApi
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import dagger.Module
@@ -37,11 +40,11 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun providesOkHttpClient(): OkHttpClient =
+    fun providesOkHttpClient(loggingInterceptor: HttpLoggingInterceptor): OkHttpClient =
         OkHttpClient.Builder()
             .readTimeout(15, TimeUnit.SECONDS)
             .connectTimeout(15, TimeUnit.SECONDS)
-            .addInterceptor(HttpLoggingInterceptor())
+            .addInterceptor(loggingInterceptor)
             .addInterceptor(ApiKeyInterceptor(BuildConfig.API_KEY))
             .build()
 
@@ -56,4 +59,10 @@ object NetworkModule {
     @Singleton
     fun providersWeatherApi(retrofit: Retrofit): WeatherApi =
         retrofit.create(WeatherApi::class.java)
+
+    @Provides
+    @Singleton
+    fun provideLocationProviderClient(application: Application): FusedLocationProviderClient {
+        return LocationServices.getFusedLocationProviderClient(application)
+    }
 }

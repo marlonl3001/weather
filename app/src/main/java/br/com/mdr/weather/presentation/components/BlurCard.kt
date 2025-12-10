@@ -6,29 +6,22 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.drawBehind
-import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Color
 import br.com.mdr.weather.presentation.ui.theme.MEDIUM_PADDING
-import br.com.mdr.weather.presentation.ui.theme.TransparentWhite
+import dev.chrisbanes.haze.HazeState
+import dev.chrisbanes.haze.hazeEffect
 
 @Composable
 fun BlurCard(
-    backgroundColor: Color,
     modifier: Modifier = Modifier,
+    hazeState: HazeState,
     content: @Composable () -> Unit
 ) {
     Box(
         modifier = modifier
-            .clip(RoundedCornerShape(MEDIUM_PADDING)) // Bordas arredondadas
-            .background(backgroundColor.copy(alpha = 0.7f)) // Fundo translúcido
-            .drawBehind {
-                // Desfoque aplicado ao fundo
-                drawRect(
-                    color = TransparentWhite,
-                    blendMode = BlendMode.SrcOver
-                )
-            }
+            .clip(RoundedCornerShape(MEDIUM_PADDING))
+            .hazeEffect(state = hazeState)
+            .background(Color.Transparent)
     ) {
         content() // Conteúdo interno permanece visível
     }
